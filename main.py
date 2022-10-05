@@ -20,7 +20,7 @@ alfabeto = {
 }
 
 contadorSymbols = {}
-operators = ['o', '^', '~', '=>', '<=>']
+operadores = ['o', '^', '~', '=>', '<=>']
 tokens = (
     'LETTERS',
     'NEGATIVE',
@@ -86,13 +86,13 @@ def p_neg2(p):
     if p[2] in alfabeto:
         alfabeto[p[2]] += 1
         g.add_edge(simbol, p[2] + alfabeto[p[2]] * ' ')
-    elif p[2][0] in operators:
+    elif p[2][0] in operadores:
         g.add_edge(simbol, p[2][0])
-    elif p[2][1] in operators:
+    elif p[2][1] in operadores:
         g.add_edge(p[1], p[2][1])
-    elif p[2][1] + p[2][2] in operators:
+    elif p[2][1] + p[2][2] in operadores:
         g.add_edge(p[1], p[2][1] + p[2][2])
-    elif p[2][1] + p[2][2] + p[2][3] in operators:
+    elif p[2][1] + p[2][2] + p[2][3] in operadores:
         g.add_edge(p[1], p[2][1] + p[2][2] + p[2][3])
 
     p[0] = p[1] + p[2]
@@ -119,14 +119,14 @@ def p_andexp(p):
             neg = p[1][0]
             g.add_edge(simbol, neg)
             g.add_edge(simbol, p[3])
-        elif p[1][1] in operators:
+        elif p[1][1] in operadores:
             if p[3] in alfabeto:
                 alfabeto[p[3]] += 1
 
                 g.add_edge(simbol, p[3] + (alfabeto[p[3]] * ' '))
 
             g.add_edge(simbol, p[1][1])
-        elif p[1][1] + p[1][2] in operators:
+        elif p[1][1] + p[1][2] in operadores:
 
             if p[3] in alfabeto:
                 alfabeto[p[3]] += 1
@@ -134,7 +134,7 @@ def p_andexp(p):
                 g.add_edge(simbol, p[3] + (alfabeto[p[3]] * ' '))
 
             g.add_edge(simbol, p[1][1] + p[1][2])
-        elif p[1][1] + p[1][2]+p[1][3] in operators:
+        elif p[1][1] + p[1][2]+p[1][3] in operadores:
 
             if p[3] in alfabeto:
                 alfabeto[p[3]] += 1
@@ -149,19 +149,19 @@ def p_andexp(p):
                 neg = p[3][0]
                 g.add_edge(simbol, p[1])
                 g.add_edge(simbol, neg)
-            elif p[3][1] in operators:
+            elif p[3][1] in operadores:
 
                 alfabeto[p[1]] += 1
 
                 g.add_edge(simbol, p[3][1])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
-            elif p[3][1] + p[3][2] in operators:
+            elif p[3][1] + p[3][2] in operadores:
 
                 alfabeto[p[1]] += 1
 
                 g.add_edge(simbol, p[3][1] + p[3][2])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
-            elif p[3][1]+p[3][2] + p[3][3] in operators:
+            elif p[3][1]+p[3][2] + p[3][3] in operadores:
 
                 alfabeto[p[1]] += 1
 
@@ -195,19 +195,19 @@ def p_orexp(p):
             neg = p[1][0]
             g.add_edge(simbol, neg)
             g.add_edge(simbol, p[3])
-        if p[1][1] in operators:
+        if p[1][1] in operadores:
 
             alfabeto[p[3]] += 1
             new = p[3] + (alfabeto[p[3]] * ' ')
             g.add_edge(simbol, p[1][1])
             g.add_edge(simbol, new)
-        elif p[1][1] + p[1][2] in operators:
+        elif p[1][1] + p[1][2] in operadores:
 
             alfabeto[p[3]] += 1
             new = p[3] + (alfabeto[p[3]] * ' ')
             g.add_edge(simbol, p[1][1] + p[1][2])
             g.add_edge(simbol, new)
-        elif p[1][1] + p[1][2]+p[1][3] in operators:
+        elif p[1][1] + p[1][2]+p[1][3] in operadores:
 
             alfabeto[p[3]] += 1
             new = p[3] + (alfabeto[p[3]] * ' ')
@@ -220,15 +220,15 @@ def p_orexp(p):
                 neg = p[3][0]
                 g.add_edge(simbol, p[1])
                 g.add_edge(simbol, neg)
-            if p[3][1] in operators:
+            if p[3][1] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
-            elif p[3][1] + p[3][2] in operators:
+            elif p[3][1] + p[3][2] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1] + p[3][2])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
-            elif p[3][1] + p[3][2] + p[3][3] in operators:
+            elif p[3][1] + p[3][2] + p[3][3] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1] + p[3][2] + p[3][3])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
@@ -255,17 +255,17 @@ def p_impli(p):
             neg = p[1][0]
             g.add_edge(simbol, p[3])
             g.add_edge(simbol, neg)
-        elif p[1][1] in operators:
+        elif p[1][1] in operadores:
             if p[3] in alfabeto:
                 alfabeto[p[3]] += 1
                 g.add_edge(simbol, p[3] + (alfabeto[p[3]] * ' '))
             g.add_edge(simbol, p[1][1])
-        elif p[1][1] + p[1][2] in operators:
+        elif p[1][1] + p[1][2] in operadores:
             alfabeto[p[3]] += 1
             new = p[3] + (alfabeto[p[3]] * ' ')
             g.add_edge(simbol, p[1][1] + p[1][2])
             g.add_edge(simbol, new)
-        elif p[1][1] + p[1][2]+p[1][3] in operators:
+        elif p[1][1] + p[1][2]+p[1][3] in operadores:
             alfabeto[p[3]] += 1
             new = p[3] + (alfabeto[p[3]] * ' ')
             g.add_edge(simbol, p[1][1] + p[1][2]+p[1][3])
@@ -276,15 +276,15 @@ def p_impli(p):
                 neg = p[3][0]
                 g.add_edge(simbol, p[1])
                 g.add_edge(simbol, neg)
-            elif p[3][1] in operators:
+            elif p[3][1] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
-            elif p[3][1] + p[3][2] in operators:
+            elif p[3][1] + p[3][2] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1] + p[3][2])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
-            elif p[3][1] + p[3][2] + p[3][3] in operators:
+            elif p[3][1] + p[3][2] + p[3][3] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1] + p[3][2] + p[3][3])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
@@ -311,12 +311,12 @@ def p_dimpli(p):
             neg = p[1][0]
             g.add_edge(simbol, p[3])
             g.add_edge(simbol, neg)
-        elif p[1][1] in operators:
+        elif p[1][1] in operadores:
             if p[3] in alfabeto:
                 alfabeto[p[3]] += 1
                 g.add_edge(simbol, p[3] + (alfabeto[p[3]] * ' '))
             g.add_edge(simbol, p[1][1])
-        elif p[1][1] + p[1][2] in operators:
+        elif p[1][1] + p[1][2] in operadores:
             alfabeto[p[3]] += 1
             new = p[3] + (alfabeto[p[3]] * ' ')
             g.add_edge(simbol, p[1][1] + p[1][2])
@@ -327,11 +327,11 @@ def p_dimpli(p):
                 neg = p[3][0]
                 g.add_edge(simbol, p[1])
                 g.add_edge(simbol, neg)
-            elif p[3][1] in operators:
+            elif p[3][1] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
-            elif p[3][1] + p[3][2] in operators:
+            elif p[3][1] + p[3][2] in operadores:
                 alfabeto[p[1]] += 1
                 g.add_edge(simbol, p[3][1] + p[3][2])
                 g.add_edge(simbol, p[1] + (alfabeto[p[1]] * ' '))
